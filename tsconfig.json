@@ -6,8 +6,11 @@
       "es2017",
       "esnext.asynciterable"
     ],
-    "typeRoots": [
-      "node_modules/@types"
+    // "typeRoots": [
+    //   "node_modules/@types"
+    // ],
+    "types": [
+      "reflect-metadata"
     ],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,

@@ -1,59 +1,81 @@
+import * as swagger from "swagger-express-ts";
+import * as bodyParser from 'body-parser';
+import "reflect-metadata";
 import express from 'express'
 import { NODE_ENV, PORT } from '@config';
-import { Routes } from '@interfaces/routes.interface';
-import * as swagger from "swagger-express-ts";
+import { Container } from 'inversify';
+import { interfaces, InversifyExpressServer, TYPE } from 'inversify-express-utils';
+
+import { TYPES } from './types'
+import { UserService } from './services/users.service';
+import { UserController } from './controllers/users.controller';
 
 class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
 
-  constructor(routes: Routes[]) {
-    this.app = express();
+  constructor() {
+    const container = this.InitializeContainer();
+    let server = new InversifyExpressServer(container);
+
     this.env = NODE_ENV || 'dev'
     this.port = PORT || 3000;
 
-    this.initializeMiddlewares();
-    this.initializeRoutes(routes);
-    this.initializeSwagger();
-    this.initializeErrorHandling();
+    server.setConfig((app: express.Application) => {
+
+      this.initializeSwagger(app);
+      //this.initializeMiddlewares(app);
+    })
+
+    server.setErrorConfig((app: any) => {
+      app.use((err: Error, request: express.Request, response: express.Response, next: express.NextFunction) => {
+        console.error(err.stack);
+        response.status(500).send("Something broke!");
+      });
+    });
+
+    this.app = server.build();
   }
 
   public listen() {
     this.app.listen(this.port, () => { });
   }
 
-  private initializeMiddlewares() {
+  private InitializeContainer(): Container {
+    let container = new Container();
+
+    container.bind<interfaces.Controller>(TYPE.Controller)
+      .to(UserController)
+      .inSingletonScope()
+      .whenTargetNamed(UserController.TARGET_NAME)
+
+    container.bind<UserService>('UserService').to(UserService);
+
+    return container;
+  }
+
+  private initializeMiddlewares(app: express.Application) {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   }
 
-  private initializeRoutes(routes: Routes[]) {
-    routes.forEach(route => {
-      this.app.use('/', route.router);
-    });
-  }
-
-  initializeSwagger() {
-    this.app.use('/api-docs/swagger', express.static('swagger'));
-    this.app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
-    const specs = swagger.express({
+  initializeSwagger(app: express.Application) {
+    app.use('/api-docs/swagger', express.static('swagger'));
+    app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
+    app.use(bodyParser.json());
+    app.use(swagger.express({
       definition: {
         info: {
           title: "Plant Therapist",
           version: "1.0"
         },
         externalDocs: {
-          url: "swagger"
+          url: "My url"
         }
         // Models can be defined here
       }
-    })
-    //this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-  }
-
-  initializeErrorHandling() {
-    //throw new Error('Method not implemented.');
+    }));
   }
 }
 
