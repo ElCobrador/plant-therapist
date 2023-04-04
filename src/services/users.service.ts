@@ -33,7 +33,7 @@ export class UserService {
   public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
     if (userData.email) {
       const findUser: User = await UserModel.findOne({ email: userData.email });
-      if (findUser && findUser._id != userId) throw new HttpException(409, `This email ${userData.email} already exists`);
+      if (findUser && findUser.id != userId) throw new HttpException(409, `This email ${userData.email} already exists`);
     }
 
     if (userData.password) {

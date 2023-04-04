@@ -9,6 +9,8 @@ import { interfaces, InversifyExpressServer, TYPE } from 'inversify-express-util
 import { TYPES } from './types'
 import { UserService } from './services/users.service';
 import { UserController } from './controllers/users.controller';
+import { dbConnection } from "@database";
+import { connect, set } from "mongoose";
 
 class App {
   public app: express.Application;
@@ -16,12 +18,13 @@ class App {
   public port: string | number;
 
   constructor() {
-    const container = this.InitializeContainer();
-    let server = new InversifyExpressServer(container);
-
     this.env = NODE_ENV || 'dev'
     this.port = PORT || 3000;
 
+    this.connectToDatabase();
+
+    const container = this.InitializeContainer();
+    let server = new InversifyExpressServer(container);
     server.setConfig((app: express.Application) => {
 
       this.initializeSwagger(app);
@@ -36,6 +39,16 @@ class App {
     });
 
     this.app = server.build();
+  }
+
+  private connectToDatabase() {
+    const url = dbConnection.url;
+
+    if (this.env !== 'prod') {
+      set('debug', true);
+    }
+    connect(dbConnection.url)
+      .then(() => console.log(`Connected to mongodb with connection : ${url} !`));
   }
 
   public listen() {

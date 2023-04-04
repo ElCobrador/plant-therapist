@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '@interfaces/users.interface';
 import { UserService } from '@services/users.service';
-import { ApiOperationGet, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
-import { controller, httpGet, interfaces } from 'inversify-express-utils';
+import { ApiOperationDelete, ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
+import { controller, httpDelete, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { inject, injectable } from 'inversify';
 
 @ApiPath({
@@ -62,7 +62,18 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  public createUser = async (req: Request, res: Response, next: NextFunction) => {
+  @ApiOperationPost({
+    description: "Create a new user",
+    parameters: {
+      body: { description: "New user", required: true, model: "User" }
+    },
+    responses: {
+      200: { description: "Success" },
+      400: { description: "" }
+    }
+  })
+  @httpPost("/")
+  private async createUser(req: Request, res: Response, next: NextFunction) {
     try {
       const userData: User = req.body;
       const createUserData: User = await this.UserService.createUser(userData);
@@ -73,7 +84,26 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  public updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  @ApiOperationPut({
+    path: "/{id}",
+    description: "Update a user",
+    parameters: {
+      path: {
+        id: {
+          description: "Id of the user",
+          type: SwaggerDefinitionConstant.Parameter.Type.STRING,
+          required: true
+        }
+      },
+      body: { description: "Update user", required: true, model: "User" }
+    },
+    responses: {
+      200: { description: "Success" },
+      400: { description: "" }
+    }
+  })
+  @httpPut("/:id")
+  private async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
       const userId: string = req.params.id;
       const userData: User = req.body;
@@ -85,7 +115,25 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  public deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  @ApiOperationDelete({
+    path: "/{id}",
+    description: "Delete a user",
+    parameters: {
+      path: {
+        id: {
+          description: "Id of the user",
+          type: SwaggerDefinitionConstant.Parameter.Type.STRING,
+          required: true
+        }
+      }
+    },
+    responses: {
+      200: { description: "Success" },
+      400: { description: "" }
+    }
+  })
+  @httpDelete("/:id")
+  private async deleteUser(req: Request, res: Response, next: NextFunction) {
     try {
       const userId: string = req.params.id;
       const deleteUserData: User = await this.UserService.deleteUser(userId);
