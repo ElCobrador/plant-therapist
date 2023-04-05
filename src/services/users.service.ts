@@ -5,11 +5,12 @@ import { User } from '@/interfaces/User.interface';
 import { UserModel } from '@models/users.model';
 import { inject, injectable } from 'inversify';
 import { UserClient } from '@/clients/UserClient';
+import { TYPES } from '@/types';
 
 @injectable()
 export class UserService {
 
-  @inject("UserClient")
+  @inject(TYPES.UserClient)
   private UserClient: UserClient;
 
   public async findAllUser(): Promise<User[]> {

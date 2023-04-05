@@ -8,7 +8,7 @@ import { interfaces, InversifyExpressServer, TYPE } from 'inversify-express-util
 
 import { TYPES } from './types'
 import { UserService } from './services/users.service';
-import { UserController } from './controllers/UserController';
+import { UserController } from './controllers/user.controller';
 import { dbConnection } from "@database";
 import { connect, set } from "mongoose";
 import { UserClient } from './clients/UserClient';
@@ -62,10 +62,10 @@ class App {
     container.bind<interfaces.Controller>(TYPE.Controller)
       .to(UserController)
       .inSingletonScope()
-      .whenTargetNamed(UserController.TARGET_NAME)
+      .whenTargetNamed(TYPES.UserController)
 
-    container.bind<UserService>('UserService').to(UserService);
-    container.bind<UserClient>("UserClient").to(UserClient);
+    container.bind<UserService>(TYPES.UserService).to(UserService);
+    container.bind<UserClient>(TYPES.UserClient).to(UserClient);
 
     return container;
   }

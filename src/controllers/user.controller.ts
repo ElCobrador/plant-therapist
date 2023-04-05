@@ -4,6 +4,7 @@ import { UserService } from '@services/users.service';
 import { ApiOperationDelete, ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { controller, httpDelete, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { inject, injectable } from 'inversify';
+import { TYPES } from '@/types';
 
 @ApiPath({
   path: "/users",
@@ -12,9 +13,8 @@ import { inject, injectable } from 'inversify';
 @controller("/users")
 @injectable()
 export class UserController implements interfaces.Controller {
-  public static TARGET_NAME: string = "UserController";
 
-  @inject("UserService")
+  @inject(TYPES.UserService)
   private UserService: UserService;
 
   @ApiOperationGet({
