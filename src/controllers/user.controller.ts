@@ -5,6 +5,7 @@ import { ApiOperationDelete, ApiOperationGet, ApiOperationPost, ApiOperationPut,
 import { controller, httpDelete, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '@/types';
+import { UserSwaggerDoc } from './user.swaggerdoc';
 
 @ApiPath({
   path: "/users",
@@ -17,14 +18,9 @@ export class UserController implements interfaces.Controller {
   @inject(TYPES.UserService)
   private UserService: UserService;
 
-  @ApiOperationGet({
-    description: "Get all users",
-    responses: {
-      200: { description: "Success", type: SwaggerDefinitionConstant.Response.Type.ARRAY, model: "User" }
-    }
-  })
+  @ApiOperationGet(UserSwaggerDoc.GetAllUsers)
   @httpGet("/")
-  private async getUsers(req: Request, res: Response, next: NextFunction): Promise<any> {
+  private async getAllUsers(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
       const findAllUsersData: User[] = await this.UserService.findAllUser();
 
@@ -34,22 +30,7 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  @ApiOperationGet({
-    path: "/{id}",
-    description: "Get user by id",
-    parameters: {
-      path: {
-        id: {
-          description: "Id of the user",
-          type: SwaggerDefinitionConstant.Parameter.Type.STRING,
-          required: true
-        }
-      }
-    },
-    responses: {
-      200: { description: "Success", type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: "User" }
-    }
-  })
+  @ApiOperationGet(UserSwaggerDoc.GetUserById)
   @httpGet("/:id")
   private async getUserById(req: Request, res: Response, next: NextFunction) {
     try {
@@ -62,16 +43,7 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  @ApiOperationPost({
-    description: "Create a new user",
-    parameters: {
-      body: { description: "New user", required: true, model: "User" }
-    },
-    responses: {
-      200: { description: "Success" },
-      400: { description: "" }
-    }
-  })
+  @ApiOperationPost(UserSwaggerDoc.CreateUser)
   @httpPost("/")
   private async createUser(req: Request, res: Response, next: NextFunction) {
     try {
@@ -84,24 +56,7 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  @ApiOperationPut({
-    path: "/{id}",
-    description: "Update a user",
-    parameters: {
-      path: {
-        id: {
-          description: "Id of the user",
-          type: SwaggerDefinitionConstant.Parameter.Type.STRING,
-          required: true
-        }
-      },
-      body: { description: "Update user", required: true, model: "User" }
-    },
-    responses: {
-      200: { description: "Success" },
-      400: { description: "" }
-    }
-  })
+  @ApiOperationPut(UserSwaggerDoc.CreateUser)
   @httpPut("/:id")
   private async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
@@ -115,23 +70,7 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  @ApiOperationDelete({
-    path: "/{id}",
-    description: "Delete a user",
-    parameters: {
-      path: {
-        id: {
-          description: "Id of the user",
-          type: SwaggerDefinitionConstant.Parameter.Type.STRING,
-          required: true
-        }
-      }
-    },
-    responses: {
-      200: { description: "Success" },
-      400: { description: "" }
-    }
-  })
+  @ApiOperationDelete(UserSwaggerDoc.DeleteUser)
   @httpDelete("/:id")
   private async deleteUser(req: Request, res: Response, next: NextFunction) {
     try {
