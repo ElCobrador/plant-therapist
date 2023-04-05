@@ -33,7 +33,6 @@ export class UserClient {
 
   public async deleteUser(userId: string): Promise<User> {
     const deleteUserById: User = await UserModel.findByIdAndDelete(userId);
-
     return deleteUserById;
   }
 }
