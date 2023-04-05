@@ -8,9 +8,10 @@ import { interfaces, InversifyExpressServer, TYPE } from 'inversify-express-util
 
 import { TYPES } from './types'
 import { UserService } from './services/users.service';
-import { UserController } from './controllers/users.controller';
+import { UserController } from './controllers/UserController';
 import { dbConnection } from "@database";
 import { connect, set } from "mongoose";
+import { UserClient } from './clients/UserClient';
 
 class App {
   public app: express.Application;
@@ -64,6 +65,7 @@ class App {
       .whenTargetNamed(UserController.TARGET_NAME)
 
     container.bind<UserService>('UserService').to(UserService);
+    container.bind<UserClient>("UserClient").to(UserClient);
 
     return container;
   }

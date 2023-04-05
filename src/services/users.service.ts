@@ -1,16 +1,19 @@
 import { hash } from 'bcrypt';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateUserDto } from '@/dtos/user.dto';
 import { HttpException } from '@/exceptions/httpException';
-import { User } from '@interfaces/users.interface';
+import { User } from '@/interfaces/User.interface';
 import { UserModel } from '@models/users.model';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
+import { UserClient } from '@/clients/UserClient';
 
 @injectable()
 export class UserService {
 
+  @inject("UserClient")
+  private UserClient: UserClient;
+
   public async findAllUser(): Promise<User[]> {
-    const users: User[] = await UserModel.find();
-    return users;
+    return await this.UserClient.findAllUsers();
   }
 
   public async findUserById(userId: string): Promise<User> {
@@ -21,18 +24,21 @@ export class UserService {
   }
 
   public async createUser(userData: CreateUserDto): Promise<User> {
-    const findUser: User = await UserModel.findOne({ email: userData.email });
-    if (findUser) throw new HttpException(409, `This email ${userData.email} already exists`);
+    let existingUser = await this.UserClient.findUserByEmail(userData.email)
+    if (existingUser) throw new HttpException(409, `This email ${userData.email} already exists`);
 
-    const hashedPassword = await hash(userData.password, 10);
-    const createUserData: User = await UserModel.create({ ...userData, password: hashedPassword });
+    const user = {
+      email: userData.email,
+      password: await hash(userData.password, 10)
+    } as User;
+    const newUser: User = await this.UserClient.createUser(user)
 
-    return createUserData;
+    return newUser;
   }
 
   public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
     if (userData.email) {
-      const findUser: User = await UserModel.findOne({ email: userData.email });
+      const findUser: User = await this.UserClient.findUserByEmail(userData.email);
       if (findUser && findUser.id != userId) throw new HttpException(409, `This email ${userData.email} already exists`);
     }
 
@@ -48,9 +54,9 @@ export class UserService {
   }
 
   public async deleteUser(userId: string): Promise<User> {
-    const deleteUserById: User = await UserModel.findByIdAndDelete(userId);
-    if (!deleteUserById) throw new HttpException(409, "User doesn't exist");
+    const deletedUser: User = await this.UserClient.deleteUser(userId);
+    if (!deletedUser) throw new HttpException(409, "User doesn't exist");
 
-    return deleteUserById;
+    return deletedUser;
   }
 }
