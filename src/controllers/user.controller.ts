@@ -5,7 +5,7 @@ import { ApiOperationDelete, ApiOperationGet, ApiOperationPost, ApiOperationPut,
 import { controller, httpDelete, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '@/types';
-import { UserSwaggerDoc } from './user.swaggerdoc';
+import { UserSwaggerDoc } from './user.swaggerDoc';
 
 @ApiPath({
   path: "/users",
