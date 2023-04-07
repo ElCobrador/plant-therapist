@@ -22,6 +22,12 @@ class User {
   @prop({ type: String, required: true })
   public password: string;
 
+  @prop({ type: () => [String] })
+  public plantIds: String[];
+
+  @prop({ type: () => [String] })
+  public devicesIds: String[];
+
   public createdAt?: Date;
 
   public updatedAt?: Date;

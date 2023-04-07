@@ -1,6 +1,5 @@
-import { CreateUserDto, UpdateUserDto } from '@/dtos/user.dto';
 import { User } from '@/interfaces/User.interface';
-import { UserModel } from '@/models/Users.model';
+import { UserModel } from '@/clients/models/Users.model';
 import { injectable } from 'inversify';
 
 @injectable()

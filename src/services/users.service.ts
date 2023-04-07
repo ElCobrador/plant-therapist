@@ -2,7 +2,7 @@ import { hash } from 'bcrypt';
 import { CreateUserDto } from '@/dtos/user.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { User } from '@/interfaces/User.interface';
-import { UserModel } from '@/models/Users.model';
+import { UserModel } from '@/clients/models/Users.model';
 import { inject, injectable } from 'inversify';
 import { UserClient } from '@/clients/UserClient';
 import { TYPES } from '@/types';
