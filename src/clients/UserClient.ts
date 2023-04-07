@@ -1,6 +1,7 @@
 import { User } from '@/interfaces/User.interface';
 import { UserModel } from '@/clients/models/Users.model';
 import { injectable } from 'inversify';
+import mongoose from 'mongoose';
 
 @injectable()
 export class UserClient {
@@ -16,8 +17,15 @@ export class UserClient {
   }
 
   public async createUser(user: User): Promise<User> {
-    const createUserData: User = await UserModel.create({ user });
-    return createUserData;
+    const createUserData = await UserModel.create({ user });
+    const createdUser: User = {
+      ...createUserData,
+      id: createUserData._id.toString(),
+      Devices: createUserData.devicesIds.map((id) => new mongoose.Types.ObjectId(id.toString())),
+      plants: createUserData.plantIds.map((id) => new mongoose.Types.ObjectId(id.toString())
+      )
+    }
+    return createdUser;
   }
 
   public async findUserByEmail(email: string): Promise<User> {

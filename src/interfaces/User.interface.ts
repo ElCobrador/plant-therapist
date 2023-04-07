@@ -1,6 +1,7 @@
 import { Document, Types } from "mongoose";
 
-export interface User extends Document<Types.ObjectId> {
+export interface User {
+  id: string;
   email: string;
   password: string;
   Devices: Array<Types.ObjectId>;

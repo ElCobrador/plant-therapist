@@ -3,7 +3,14 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev nodemon",
+    "clean": "rimraf dist/*",
+    "copy-assets": "ts-node tools/copyAssets",
+    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "tsc": "tsc",
+    "build": "npm-run-all clean lint tsc copy-assets",
+    "dev:start": "npm-run-all build start",
+    "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
+    "start": "node .",
     "test": "jest"
   },
   "author": "",
@@ -28,11 +35,17 @@
     "express": "^4.18.2",
     "inversify": "^4.13.0",
     "inversify-express-utils": "^4.2.2",
+    "module-alias": "^2.2.2",
     "mongoose": "^7.0.3",
     "nodemon": "^2.0.22",
     "reflect-metadata": "^0.1.13",
+    "rimraf": "^4.4.1",
     "swagger-express-ts": "^1.1.0",
     "swagger-ui-dist": "^4.18.2",
     "tslib": "^2.5.0"
+  },
+  "_moduleAliases": {
+    "@modules": "build/modules",
+    "@core": "build/core"
   }
 }
