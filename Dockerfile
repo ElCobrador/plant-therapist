@@ -19,5 +19,5 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 8080
-ENTRYPOINT ["/bin/bash", "-c", "node -r ts-node/register -r tsconfig-paths/register dist/server.js"]
+EXPOSE 3000
+ENTRYPOINT ["/bin/bash", "-c", "NODE_ENV=prod node -r ts-node/register -r tsconfig-paths/register dist/server.js"]
