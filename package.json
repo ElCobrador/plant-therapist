@@ -3,14 +3,19 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "clean": "rimraf dist/*",
-    "copy-assets": "ts-node tools/copyAssets",
+    "clean": "rimraf ./dist",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "tsc": "tsc",
-    "build": "npm-run-all clean lint tsc copy-assets",
+    "build": "npm-run-all clean tsc",
     "dev:start": "npm-run-all build start",
-    "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
-    "start": "node .",
+    "dev": "nodemon --watch src -e ts --exec npm run dev:start",
+    "start": "node -r ts-node/register -r tsconfig-paths/register dist/server.js",
+    "test": "jest"
+  },
+  "scripts-bk": {
+    "dev": "cross-env NODE_ENV=dev nodemon",
+    "build": "rimraf ./dist && tsc",
+    "start": "npm run build && node dist/server.js",
     "test": "jest"
   },
   "author": "",
@@ -38,6 +43,7 @@
     "module-alias": "^2.2.2",
     "mongoose": "^7.0.3",
     "nodemon": "^2.0.22",
+    "npm-run-all": "^4.1.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^4.4.1",
     "swagger-express-ts": "^1.1.0",

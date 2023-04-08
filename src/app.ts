@@ -2,14 +2,14 @@ import * as swagger from "swagger-express-ts";
 import * as bodyParser from 'body-parser';
 import "reflect-metadata";
 import express from 'express'
-import { NODE_ENV, PORT } from '@config';
+import { NODE_ENV, PORT } from '@config/index';
 import { Container } from 'inversify';
 import { interfaces, InversifyExpressServer, TYPE } from 'inversify-express-utils';
 
 import { TYPES } from './types'
 import { UserService } from './services/users.service';
 import { UserController } from './controllers/user.controller';
-import { dbConnection } from "@database";
+import { dbConnection } from "@database/index";
 import { connect, set } from "mongoose";
 import { UserClient } from './clients/UserClient';
 

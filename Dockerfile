@@ -1,6 +1,6 @@
 # https://blog.devgenius.io/how-to-build-and-run-a-nodejs-app-with-docker-github-actions-59eb264dfef5
 # https://nodejs.org/en/docs/guides/nodejs-docker-webapp
-FROM node:16
+FROM node:18
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -17,7 +17,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-RUN npx tsc
+RUN npm run build
 
 EXPOSE 8080
-CMD [ "node", "server.js" ]
+ENTRYPOINT ["/bin/bash", "-c", "node -r ts-node/register -r tsconfig-paths/register dist/server.js"]

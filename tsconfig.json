@@ -38,14 +38,14 @@
       "@/*": [
         "*"
       ],
-      "@config": [
-        "config"
+      "@config/*": [
+        "config/*"
       ],
       "@controllers/*": [
         "controllers/*"
       ],
-      "@database": [
-        "database"
+      "@database/*": [
+        "database/*"
       ],
       "@dtos/*": [
         "dtos/*"
