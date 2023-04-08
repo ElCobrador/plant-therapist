@@ -4,6 +4,6 @@ export interface User {
   id: string;
   email: string;
   password: string;
-  Devices: Array<Types.ObjectId>;
-  plants: Array<Types.ObjectId>;
+  Devices: string[];
+  plants: string[];
 }

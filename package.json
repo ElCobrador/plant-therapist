@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "build": "npm-run-all clean tsc",
     "dev:start": "npm-run-all build start",
-    "dev": "nodemon --watch src -e ts --exec npm run dev:start",
+    "dev": "cross-env NODE_ENV=dev nodemon --watch src -e ts",
     "prod": "cross-env NODE_ENV=prod start",
     "start": "node -r ts-node/register -r tsconfig-paths/register dist/server.js",
     "test": "jest"

@@ -1,7 +1,7 @@
 const TYPES = {
-  UserController: Symbol.for("UserController"),
-  UserService: Symbol.for("UserService"),
-  UserClient: Symbol.for("UserClient")
+  UserController: "UserController",
+  UserService: "UserService",
+  UserClient: "UserClient"
 }
 
 export { TYPES }

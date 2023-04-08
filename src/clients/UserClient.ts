@@ -17,13 +17,13 @@ export class UserClient {
   }
 
   public async createUser(user: User): Promise<User> {
-    const createUserData = await UserModel.create({ user });
+    const createUserData = await UserModel.create(user);
     const createdUser: User = {
-      ...createUserData,
       id: createUserData._id.toString(),
-      Devices: createUserData.devicesIds.map((id) => new mongoose.Types.ObjectId(id.toString())),
-      plants: createUserData.plantIds.map((id) => new mongoose.Types.ObjectId(id.toString())
-      )
+      email: createUserData.email,
+      password: createUserData.password,
+      Devices: createUserData.devicesIds.map((id) => id.toString()),
+      plants: createUserData.plantIds.map((id) => id.toString())
     }
     return createdUser;
   }
