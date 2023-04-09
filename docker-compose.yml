@@ -5,6 +5,8 @@ services:
   mongo:
     image: mongo
     restart: always
+    # I could not get the mongo db to work with the authentication for now. 
+    # It will be some concern for another day.
     #environment:
     # MONGO_INITDB_ROOT_USERNAME: mongoroot
     # MONGO_INITDB_ROOT_PASSWORD: AVeryGoodPassword
