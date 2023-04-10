@@ -26,6 +26,7 @@ services:
   backend:
     depends_on:
       - mongo
+    restart: on-failure
     build:
       context: ./plant-therapist-backend
       dockerfile: Dockerfile

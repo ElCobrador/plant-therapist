@@ -8,7 +8,7 @@ jobs:
     runs-on: self-hosted
         
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: build docker image
         run: docker compose -f docker-compose.prod.yml build
@@ -17,18 +17,19 @@ jobs:
         run: docker compose up -d
 
   build-and-deploy-frontend: 
-    runs-on: self-hosted
-    strategy:   
-      matrix: 
-        node-version: [18.x]
+    runs-on: [self-hosted, linux]
+
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
         with:
-            node-version: ${{ matrix.node-version }}
+            node-version: 18
 
       - name: install dependencies.
         run: npm install
@@ -38,6 +39,10 @@ jobs:
         run: npm run predeploy
         working-directory: plant-therapist-frontend
 
-      #- run: npm install
-      #- run: npm run build --if-present
-      #- run: npm test
+      - name: Upload pages artifacts
+        uses: actions/upload-pages-artifact@v1
+        with: 
+          path: ./plant-therapist-frontend/build
+
+      - name: Deploy to pages
+        uses: actions/deploy-pages@v1
