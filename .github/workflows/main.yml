@@ -4,24 +4,39 @@ on:
     branches: [ master ]
   
 jobs:
-  deploy:
+  build-and-deploy-backend:
     runs-on: self-hosted
-    strategy:   
-      matrix: 
-        node-version: [18.x]
         
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-            node-version: ${{ matrix.node-version }}
 
       - name: build docker image
         run: docker compose -f docker-compose.prod.yml build
 
       - name: run docker containers
         run: docker compose up -d
+
+  build-and-deploy-frontend: 
+    runs-on: self-hosted
+    strategy:   
+      matrix: 
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+            node-version: ${{ matrix.node-version }}
+
+      - name: install dependencies.
+        run: npm install
+        working-directory: plant-therapist-frontend
+
+      - name: build the project
+        run: npm run predeploy
+        working-directory: plant-therapist-frontend
 
       #- run: npm install
       #- run: npm run build --if-present
