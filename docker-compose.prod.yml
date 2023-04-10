@@ -29,7 +29,7 @@ services:
     depends_on:
       - mongo
     build:
-      context: ./
+      context: ./plant-therapist-backend
       dockerfile: Dockerfile
     ports:
       - 3000:3000
