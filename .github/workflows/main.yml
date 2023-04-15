@@ -25,13 +25,42 @@ jobs:
           frontend:
             - 'plant-therapist-frontend/**'
 
+  build-and-test-backend: 
+    needs: [check-changes]
+    if: ${{ needs.check-changes.outputs.backend == 'true' }}
+    runs-on: [self-hosted, linux]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+            node-version: 18
+
+      - name: install dependencies.
+        run: npm install
+        working-directory: plant-therapist-backend
+
+      - name: build the project
+        run: npm run build
+        working-directory: plant-therapist-backend
+
+      - name: Upload build artifacts.
+        uses: actions/upload-artifact@v3
+        with:
+          name: plant-therapist-dist
+          path: plant-therapist-backend/dist/
+
   build-and-deploy-backend:
-    needs: check-changes
-    if: ${{ needs.changes.outputs.backend == 'true' }}
+    needs: [build-and-test-backend]
 
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
+      - name: Download build artifacts.
+        uses: actions/download-artifact@v3
+        with:
+          name: plant-therapist-dist
 
       - name: build docker image
         run: docker compose -f docker-compose.prod.yml build
@@ -41,7 +70,7 @@ jobs:
 
   build-and-deploy-frontend: 
     needs: check-changes
-    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    if: ${{ needs.check-changes.outputs.frontend == 'true' }}
 
     runs-on: [self-hosted, linux]
 
