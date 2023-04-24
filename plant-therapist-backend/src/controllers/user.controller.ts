@@ -40,6 +40,7 @@ export class UserController implements interfaces.Controller {
       res.status(200).json({ data: findOneUserData, message: 'findOne' });
     } catch (error) {
       next(error);
+
     }
   };
 
