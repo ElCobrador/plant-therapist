@@ -1,0 +1,12 @@
+# https://blog.devgenius.io/how-to-build-and-run-a-nodejs-app-with-docker-github-actions-59eb264dfef5
+# https://nodejs.org/en/docs/guides/nodejs-docker-webapp
+FROM node:18
+
+# Create app directory.
+WORKDIR /usr/src/app
+
+# Bundle app source
+COPY . .
+
+EXPOSE 3000
+ENTRYPOINT ["/bin/bash", "-c", "NODE_ENV=dev node -r ts-node/register -r tsconfig-paths/register server.js"]
