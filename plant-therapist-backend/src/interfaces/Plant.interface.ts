@@ -1,7 +1,8 @@
 import { Document, Types } from "mongoose";
 import { WateringThresholds } from "./WateringThresholds.interface";
 
-export interface ProbeReading extends Document<Types.ObjectId> {
+export interface Plant {
+  Id: string;
   Name: string;
   Species: string;
   WateringThresholds: WateringThresholds;

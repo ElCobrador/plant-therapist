@@ -21,4 +21,4 @@ export default class HeroStory extends Component<Props, State> {
       </div>
     )
   }
-}
+} 

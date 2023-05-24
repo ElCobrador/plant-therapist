@@ -30,7 +30,6 @@ export const GridContainer = styled.div<GridContainerProps>`
   grid-template-columns: ${({ gridTemplateColumns }) => gridTemplateColumns};
   grid-template-rows: ${({ gridTemplateRows }) => gridTemplateRows};
   grid-gap: ${({ gridGap }) => gridGap};
-
 `
 
 export default FlexContainer;

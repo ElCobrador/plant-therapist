@@ -1,28 +1,27 @@
-import { NextFunction, Request, Response } from 'express';
-import { User } from '@/interfaces/User.interface';
-import { UserService } from '@/services/Users.service';
-import { ApiOperationDelete, ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
-import { controller, httpDelete, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
+import { ApiOperationDelete, ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath } from 'swagger-express-ts';
 import { inject, injectable } from 'inversify';
+import { controller, httpDelete, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { TYPES } from '@/types';
-import { UserSwaggerDoc } from './user.swaggerDoc';
+import { NextFunction, Request, Response } from 'express';
+import { PlantService } from '@/services/Plants.service';
+import { PlantSwaggerDoc } from './plant.swaggerDoc';
 
 @ApiPath({
-  path: "/users",
-  name: "Users",
+  path: "/plant",
+  name: "Plant"
 })
-@controller("/users")
+@controller("/plant")
 @injectable()
-export class UserController implements interfaces.Controller {
+export class PlantController implements interfaces.Controller {
 
-  @inject(TYPES.UserService)
-  private UserService: UserService;
+  @inject(TYPES.PlantService)
+  private PlantService: PlantService;
 
-  @ApiOperationGet(UserSwaggerDoc.GetAllUsers)
+  @ApiOperationGet(PlantSwaggerDoc.GetAllUsers)
   @httpGet("/")
   private async getAllUsers(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-      const findAllUsersData: User[] = await this.UserService.findAllUser();
+      const findAllUsersData: Plant[] = await this.PlantService.findAllUser();
 
       res.status(200).json({ data: findAllUsersData, message: 'findAll' });
     } catch (error) {
@@ -30,7 +29,7 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  @ApiOperationGet(UserSwaggerDoc.GetUserById)
+  @ApiOperationGet(PlantSwaggerDoc.GetUserById)
   @httpGet("/:id")
   private async getUserById(req: Request, res: Response, next: NextFunction) {
     try {
@@ -43,7 +42,7 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  @ApiOperationPost(UserSwaggerDoc.CreateUser)
+  @ApiOperationPost(PlantSwaggerDoc.CreateUser)
   @httpPost("/")
   private async createUser(req: Request, res: Response, next: NextFunction) {
     try {
@@ -56,7 +55,7 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  @ApiOperationPut(UserSwaggerDoc.CreateUser)
+  @ApiOperationPut(PlantSwaggerDoc.CreateUser)
   @httpPut("/:id")
   private async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
@@ -70,7 +69,7 @@ export class UserController implements interfaces.Controller {
     }
   };
 
-  @ApiOperationDelete(UserSwaggerDoc.DeleteUser)
+  @ApiOperationDelete(PlantSwaggerDoc.DeleteUser)
   @httpDelete("/:id")
   private async deleteUser(req: Request, res: Response, next: NextFunction) {
     try {

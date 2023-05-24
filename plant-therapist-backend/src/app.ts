@@ -7,11 +7,14 @@ import { Container } from 'inversify';
 import { interfaces, InversifyExpressServer, TYPE } from 'inversify-express-utils';
 
 import { TYPES } from './types'
-import { UserService } from './services/users.service';
+import { UserService } from './services/Users.service';
 import { UserController } from './controllers/user.controller';
 import { dbConnection } from "@database/index";
 import { connect, set } from "mongoose";
 import { UserClient } from './clients/UserClient';
+import { PlantController } from "./controllers/plant.controller";
+import { PlantService } from './services/Plants.service';
+import { PlantClient } from "./clients/PlantClient";
 
 class App {
   public app: express.Application;
@@ -63,9 +66,15 @@ class App {
       .to(UserController)
       .inSingletonScope()
       .whenTargetNamed(TYPES.UserController)
-
     container.bind<UserService>(TYPES.UserService).to(UserService);
     container.bind<UserClient>(TYPES.UserClient).to(UserClient);
+
+    container.bind<interfaces.Controller>(TYPE.Controller)
+      .to(PlantController)
+      .inSingletonScope()
+      .whenTargetNamed(TYPES.PlantController)
+    container.bind<PlantService>(TYPES.PlantService).to(PlantService);
+    container.bind<PlantClient>(TYPES.PlantClient).to(PlantClient);
 
     return container;
   }
