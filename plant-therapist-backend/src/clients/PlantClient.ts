@@ -1,30 +1,26 @@
-import { User } from '@/interfaces/User.interface';
+import { Plant } from '@/interfaces/Plant.interface';
 import { injectable } from 'inversify';
 
 @injectable()
 export class PlantClient {
 
-  public async findAllUsers(): Promise<User[]> {
+  public async getAllPlants(): Promise<Plant[]> {
     return undefined;
   }
 
-  public async findUserById(userId: string): Promise<User> {
+  public async findPlantById(plantId: string): Promise<Plant> {
     return undefined;
   }
 
-  public async createUser(user: User): Promise<User> {
+  public async createPlant(plant: Plant): Promise<Plant> {
     return undefined;
   }
 
-  public async findUserByEmail(email: string): Promise<User> {
+  public async updatePlant(plantId: string, plant: Plant): Promise<Plant> {
     return undefined;
   }
 
-  public async updateUser(userId: string, user: User): Promise<User> {
-    return undefined;
-  }
-
-  public async deleteUser(userId: string): Promise<User> {
+  public async deletePlant(plantId: string): Promise<Plant> {
     return undefined;
   }
 }

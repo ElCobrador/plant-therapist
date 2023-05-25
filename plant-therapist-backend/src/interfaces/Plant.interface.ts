@@ -1,9 +1,11 @@
-import { Document, Types } from "mongoose";
 import { WateringThresholds } from "./WateringThresholds.interface";
+import { Probe } from './Probe.interface';
 
 export interface Plant {
   Id: string;
-  Name: string;
-  Species: string;
+  FriendlyName: string;
+  ScientificName: string;
+  Description: string;
   WateringThresholds: WateringThresholds;
+  Probes: Probe[];
 }

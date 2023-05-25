@@ -5,6 +5,8 @@ import { TYPES } from '@/types';
 import { NextFunction, Request, Response } from 'express';
 import { PlantService } from '@/services/Plants.service';
 import { PlantSwaggerDoc } from './plant.swaggerDoc';
+import { Plant } from '@/interfaces/Plant.interface';
+import { CreatePlantDto, UpdatePlantDto } from '../dtos/plant.dto';
 
 @ApiPath({
   path: "/plant",
@@ -17,53 +19,53 @@ export class PlantController implements interfaces.Controller {
   @inject(TYPES.PlantService)
   private PlantService: PlantService;
 
-  @ApiOperationGet(PlantSwaggerDoc.GetAllUsers)
+  @ApiOperationGet(PlantSwaggerDoc.GetAllPlants)
   @httpGet("/")
-  private async getAllUsers(req: Request, res: Response, next: NextFunction): Promise<any> {
+  private async getAllPlants(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-      const findAllUsersData: Plant[] = await this.PlantService.findAllUser();
+      const plants: Plant[] = await this.PlantService.getAllPlants();
 
-      res.status(200).json({ data: findAllUsersData, message: 'findAll' });
+      res.status(200).json({ data: plants, message: 'findAll' });
     } catch (error) {
       next(error);
     }
   };
 
-  @ApiOperationGet(PlantSwaggerDoc.GetUserById)
+  @ApiOperationGet(PlantSwaggerDoc.GetPlantById)
   @httpGet("/:id")
-  private async getUserById(req: Request, res: Response, next: NextFunction) {
+  private async GetPlantById(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId: string = req.params.id;
-      const findOneUserData: User = await this.UserService.findUserById(userId);
+      const plantId: string = req.params.id;
+      const plant: Plant = await this.PlantService.getPlantById(plantId);
 
-      res.status(200).json({ data: findOneUserData, message: 'findOne' });
+      res.status(200).json({ data: plant, message: 'findOne' });
     } catch (error) {
       next(error);
     }
   };
 
-  @ApiOperationPost(PlantSwaggerDoc.CreateUser)
+  @ApiOperationPost(PlantSwaggerDoc.CreatePlant)
   @httpPost("/")
-  private async createUser(req: Request, res: Response, next: NextFunction) {
+  private async CreatePlant(req: Request, res: Response, next: NextFunction) {
     try {
-      const userData: User = req.body;
-      const createUserData: User = await this.UserService.createUser(userData);
+      const requestedPlant: CreatePlantDto = req.body;
+      const createdPlant: Plant = await this.PlantService.createPlant(requestedPlant);
 
-      res.status(201).json({ data: createUserData, message: 'created' });
+      res.status(201).json({ data: createdPlant, message: 'created' });
     } catch (error) {
       next(error);
     }
   };
 
-  @ApiOperationPut(PlantSwaggerDoc.CreateUser)
+  @ApiOperationPut(PlantSwaggerDoc.CreatePlant)
   @httpPut("/:id")
-  private async updateUser(req: Request, res: Response, next: NextFunction) {
+  private async UpdatePlant(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId: string = req.params.id;
-      const userData: User = req.body;
-      const updateUserData: User = await this.UserService.updateUser(userId, userData);
+      const plantId: string = req.params.id;
+      const updatePlantDto: UpdatePlantDto = req.body;
+      const updatedPlant: Plant = await this.PlantService.updatePlant(plantId, updatePlantDto);
 
-      res.status(200).json({ data: updateUserData, message: 'updated' });
+      res.status(200).json({ data: updatedPlant, message: 'Plant updated successfully.' });
     } catch (error) {
       next(error);
     }
@@ -71,12 +73,12 @@ export class PlantController implements interfaces.Controller {
 
   @ApiOperationDelete(PlantSwaggerDoc.DeleteUser)
   @httpDelete("/:id")
-  private async deleteUser(req: Request, res: Response, next: NextFunction) {
+  private async DeletePlant(req: Request, res: Response, next: NextFunction) {
     try {
       const userId: string = req.params.id;
-      const deleteUserData: User = await this.UserService.deleteUser(userId);
+      const deletedPlant: Plant = await this.PlantService.deletePlant(userId);
 
-      res.status(200).json({ data: deleteUserData, message: 'deleted' });
+      res.status(200).json({ data: deletedPlant, message: 'Plant deleted successfully.' });
     } catch (error) {
       next(error);
     }

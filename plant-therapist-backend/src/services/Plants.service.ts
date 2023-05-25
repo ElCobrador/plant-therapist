@@ -1,11 +1,12 @@
 import { hash } from 'bcrypt';
 import { CreateUserDto } from '@/dtos/user.dto';
 import { HttpException } from '@/exceptions/httpException';
-import { User } from '@/interfaces/User.interface';
-import { UserModel } from '@/clients/models/Users.model';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '@/types';
 import { PlantClient } from '@/clients/PlantClient';
+import { Plant } from '@/interfaces/Plant.interface';
+import { CreatePlantDto, UpdatePlantDto } from '../dtos/plant.dto';
+import { Probe } from '@/interfaces/Probe.interface';
 
 @injectable()
 export class PlantService {
@@ -13,50 +14,56 @@ export class PlantService {
   @inject(TYPES.PlantClient)
   private PlantClient: PlantClient;
 
-  public async getAllPlants(): Promise<User[]> {
-    return await this.PlantClient.findAllUsers();
+  public async getAllPlants(): Promise<Plant[]> {
+    return await this.PlantClient.getAllPlants();
   }
 
-  public async findPlantById(userId: string): Promise<User> {
-    const findUser: User = await UserModel.findOne({ _id: userId });
+  public async getPlantById(plantId: string): Promise<Plant> {
+    const findUser: Plant = await this.PlantClient.findPlantById(plantId);
     if (!findUser) throw new HttpException(409, "User doesn't exist");
 
     return findUser;
   }
 
-  public async createPlant(userData: CreateUserDto): Promise<User> {
-    let existingUser = await this.PlantClient.findUserByEmail(userData.email)
-    if (existingUser) throw new HttpException(409, `This email ${userData.email} already exists`);
+  public async createPlant(createPlantDto: CreatePlantDto): Promise<Plant> {
+    // get the real probes
+    const probes: Probe[] = [];
 
-    const user = {
-      email: userData.email,
-      password: await hash(userData.password, 10)
-    } as User;
-    const newUser: User = await this.PlantClient.createUser(user)
+    const plant: Plant = {
+      Id: undefined,
+      FriendlyName: createPlantDto.FriendlyName,
+      ScientificName: createPlantDto.ScientificName,
+      Description: createPlantDto.Description,
+      Probes: probes,
+      WateringThresholds: undefined
+    }
+    const createdPlant: Plant = await this.PlantClient.createPlant(plant)
 
-    return newUser;
+    return createdPlant;
   }
 
-  public async updatePlant(userId: string, userData: CreateUserDto): Promise<User> {
-    if (userData.email) {
-      const findUser: User = await this.PlantClient.findUserByEmail(userData.email);
-      if (findUser && findUser.id != userId) throw new HttpException(409, `This email ${userData.email} already exists`);
-    }
+  public async updatePlant(plantId: string, updatePlantDto: UpdatePlantDto): Promise<Plant> {
+    const currentPlant: Plant = await this.PlantClient.findPlantById(plantId);
 
-    if (userData.password) {
-      const hashedPassword = await hash(userData.password, 10);
-      userData = { ...userData, password: hashedPassword };
-    }
+    if (!currentPlant) throw new HttpException(409, "This Plant doesn't exist");
 
-    const updateUserById: User = await UserModel.findByIdAndUpdate(userId, { userData });
-    if (!updateUserById) throw new HttpException(409, "User doesn't exist");
+    // TODO: get the real probes
+    const probes: Probe[] = [];
 
-    return updateUserById;
+    const updatedPlant: Plant = await this.PlantClient.updatePlant(plantId, {
+      ...currentPlant,
+      FriendlyName: updatePlantDto.FriendlyName,
+      ScientificName: updatePlantDto.ScientificName,
+      Description: updatePlantDto.Description,
+      Probes: probes,
+    });
+
+    return updatedPlant;
   }
 
-  public async deletePlant(userId: string): Promise<User> {
-    const deletedUser: User = await this.PlantClient.deleteUser(userId);
-    if (!deletedUser) throw new HttpException(409, "User doesn't exist");
+  public async deletePlant(userId: string): Promise<Plant> {
+    const deletedUser: Plant = await this.PlantClient.deletePlant(userId);
+    if (!deletedUser) throw new HttpException(409, "Plant doesn't exist");
 
     return deletedUser;
   }

@@ -2,14 +2,14 @@ import { SwaggerDefinitionConstant } from "swagger-express-ts";
 
 export abstract class PlantSwaggerDoc {
 
-  public static GetAllUsers = {
+  public static GetAllPlants = {
     description: "Get all users",
     responses: {
       200: { description: "Success", type: SwaggerDefinitionConstant.Response.Type.ARRAY, model: "User" }
     }
   }
 
-  public static GetUserById = {
+  public static GetPlantById = {
     path: "/{id}",
     description: "Get user by id",
     parameters: {
@@ -26,7 +26,7 @@ export abstract class PlantSwaggerDoc {
     }
   }
 
-  public static CreateUser = {
+  public static CreatePlant = {
     description: "Create a new user",
     parameters: {
       body: { description: "New user", required: true, model: "User" }

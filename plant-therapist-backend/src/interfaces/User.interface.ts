@@ -1,5 +1,3 @@
-import { Document, Types } from "mongoose";
-
 export interface User {
   id: string;
   email: string;

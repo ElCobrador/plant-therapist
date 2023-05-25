@@ -5,9 +5,9 @@ const TYPES = {
   UserClient: "UserClient",
 
   // Plant
-  PlantController: "UserController",
-  PlantService: "UserService",
-  PlantClient: "UserClient",
+  PlantController: "PlantController",
+  PlantService: "PlantService",
+  PlantClient: "PlantClient",
 }
 
 export { TYPES }
