@@ -71,7 +71,7 @@ export class PlantController implements interfaces.Controller {
     }
   };
 
-  @ApiOperationDelete(PlantSwaggerDoc.DeleteUser)
+  @ApiOperationDelete(PlantSwaggerDoc.DeletePlant)
   @httpDelete("/:id")
   private async DeletePlant(req: Request, res: Response, next: NextFunction) {
     try {

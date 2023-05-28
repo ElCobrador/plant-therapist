@@ -7,5 +7,5 @@ export interface Plant {
   ScientificName: string;
   Description: string;
   WateringThresholds: WateringThresholds;
-  Probes: Probe[];
+  AssignedProbeId: string;
 }

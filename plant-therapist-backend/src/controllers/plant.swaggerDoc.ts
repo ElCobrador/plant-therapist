@@ -1,35 +1,36 @@
 import { SwaggerDefinitionConstant } from "swagger-express-ts";
+import { CreatePlantDto, UpdatePlantDto } from "../dtos/plant.dto"
 
 export abstract class PlantSwaggerDoc {
 
   public static GetAllPlants = {
-    description: "Get all users",
+    description: "Get all plants",
     responses: {
-      200: { description: "Success", type: SwaggerDefinitionConstant.Response.Type.ARRAY, model: "User" }
+      200: { description: "Success", type: SwaggerDefinitionConstant.Response.Type.ARRAY, model: "CreatePlantDto" }
     }
   }
 
   public static GetPlantById = {
     path: "/{id}",
-    description: "Get user by id",
+    description: "Get plant by Id",
     parameters: {
       path: {
         id: {
-          description: "Id of the user",
+          description: "Id of the plant",
           type: SwaggerDefinitionConstant.Parameter.Type.STRING,
           required: true
         }
       }
     },
     responses: {
-      200: { description: "Success", type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: "User" }
+      200: { description: "Success", type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: "CreatePlantDto" }
     }
   }
 
   public static CreatePlant = {
-    description: "Create a new user",
+    description: "Create a new plant",
     parameters: {
-      body: { description: "New user", required: true, model: "User" }
+      body: { description: "New plant", required: true, model: "CreatePlantDto" }
     },
     responses: {
       200: { description: "Success" },
@@ -37,18 +38,18 @@ export abstract class PlantSwaggerDoc {
     }
   }
 
-  public static UpdateUser = {
+  public static UpdatePlant = {
     path: "/{id}",
-    description: "Update a user",
+    description: "Update a plant",
     parameters: {
       path: {
         id: {
-          description: "Id of the user",
+          description: "Id of the plant",
           type: SwaggerDefinitionConstant.Parameter.Type.STRING,
           required: true
         }
       },
-      body: { description: "Update user", required: true, model: "User" }
+      body: { description: "Update plant", required: true, model: "CreatePlantDto" }
     },
     responses: {
       200: { description: "Success" },
@@ -56,13 +57,13 @@ export abstract class PlantSwaggerDoc {
     }
   }
 
-  public static DeleteUser = {
+  public static DeletePlant = {
     path: "/{id}",
-    description: "Delete a user",
+    description: "Delete a plant",
     parameters: {
       path: {
         id: {
-          description: "Id of the user",
+          description: "Id of the plant",
           type: SwaggerDefinitionConstant.Parameter.Type.STRING,
           required: true
         }

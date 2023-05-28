@@ -26,15 +26,12 @@ export class PlantService {
   }
 
   public async createPlant(createPlantDto: CreatePlantDto): Promise<Plant> {
-    // get the real probes
-    const probes: Probe[] = [];
-
     const plant: Plant = {
       Id: undefined,
       FriendlyName: createPlantDto.FriendlyName,
       ScientificName: createPlantDto.ScientificName,
       Description: createPlantDto.Description,
-      Probes: probes,
+      AssignedProbeId: createPlantDto.AssignedProbeId,
       WateringThresholds: undefined
     }
     const createdPlant: Plant = await this.PlantClient.createPlant(plant)
@@ -47,15 +44,12 @@ export class PlantService {
 
     if (!currentPlant) throw new HttpException(409, "This Plant doesn't exist");
 
-    // TODO: get the real probes
-    const probes: Probe[] = [];
-
     const updatedPlant: Plant = await this.PlantClient.updatePlant(plantId, {
       ...currentPlant,
       FriendlyName: updatePlantDto.FriendlyName,
       ScientificName: updatePlantDto.ScientificName,
       Description: updatePlantDto.Description,
-      Probes: probes,
+      AssignedProbeId: updatePlantDto.AssignedProbeId,
     });
 
     return updatedPlant;

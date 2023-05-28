@@ -7,7 +7,7 @@ import { Container } from 'inversify';
 import { interfaces, InversifyExpressServer, TYPE } from 'inversify-express-utils';
 
 import { TYPES } from './types'
-import { UserService } from './services/Users.service';
+import { UserService } from './services/users.service';
 import { UserController } from './controllers/user.controller';
 import { dbConnection } from "@database/index";
 import { connect, set } from "mongoose";
