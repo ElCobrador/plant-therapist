@@ -1,4 +1,4 @@
-import { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE } from '@config/index';
+import { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE } from '@/app.envConfig';
 import { ConnectOptions } from 'mongoose';
 
 export const dbConnection = {
