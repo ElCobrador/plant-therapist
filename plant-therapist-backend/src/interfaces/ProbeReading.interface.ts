@@ -1,7 +1,6 @@
-import { Document, Types } from "mongoose";
-
-export interface ProbeReading extends Document<Types.ObjectId> {
+export interface ProbeReading {
+  Id: string;
   ReceivedAt: Date;
-  PlantId: Types.ObjectId;
+  PlantId: string;
   value: Number;
 }

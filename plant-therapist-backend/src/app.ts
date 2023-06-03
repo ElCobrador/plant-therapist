@@ -2,16 +2,21 @@ import * as swagger from "swagger-express-ts";
 import * as bodyParser from 'body-parser';
 import "reflect-metadata";
 import express from 'express'
-import { NODE_ENV, PORT } from '@config/index';
+import { NODE_ENV, PORT } from '@/app.envConfig';
 import { Container } from 'inversify';
 import { interfaces, InversifyExpressServer, TYPE } from 'inversify-express-utils';
 
 import { TYPES } from './types'
 import { UserService } from './services/users.service';
 import { UserController } from './controllers/user.controller';
-import { dbConnection } from "@database/index";
+import { dbConnection } from "@/app.dbConfig";
 import { connect, set } from "mongoose";
 import { UserClient } from './clients/UserClient';
+import { PlantController } from "./controllers/plant.controller";
+import { PlantService } from './services/Plants.service';
+import { PlantClient } from "./clients/PlantClient";
+import { CreatePlantDto } from './dtos/plant.dto';
+import { initializeSwaggerConfig } from './app.swaggerConfig';
 
 class App {
   public app: express.Application;
@@ -63,9 +68,15 @@ class App {
       .to(UserController)
       .inSingletonScope()
       .whenTargetNamed(TYPES.UserController)
-
     container.bind<UserService>(TYPES.UserService).to(UserService);
     container.bind<UserClient>(TYPES.UserClient).to(UserClient);
+
+    container.bind<interfaces.Controller>(TYPE.Controller)
+      .to(PlantController)
+      .inSingletonScope()
+      .whenTargetNamed(TYPES.PlantController)
+    container.bind<PlantService>(TYPES.PlantService).to(PlantService);
+    container.bind<PlantClient>(TYPES.PlantClient).to(PlantClient);
 
     return container;
   }
@@ -75,7 +86,7 @@ class App {
     this.app.use(express.urlencoded({ extended: true }));
   }
 
-  initializeSwagger(app: express.Application) {
+  private initializeSwagger(app: express.Application) {
     app.use('/api-docs/swagger', express.static('swagger'));
     app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
     app.use(bodyParser.json());
@@ -91,6 +102,7 @@ class App {
         // Models can be defined here
       }
     }));
+    initializeSwaggerConfig();
   }
 }
 

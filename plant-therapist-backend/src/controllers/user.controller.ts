@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '@/interfaces/User.interface';
-import { UserService } from '@services/users.service';
+import { UserService } from '@/services/Users.service';
 import { ApiOperationDelete, ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { controller, httpDelete, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { inject, injectable } from 'inversify';

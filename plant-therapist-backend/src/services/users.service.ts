@@ -2,7 +2,6 @@ import { hash } from 'bcrypt';
 import { CreateUserDto } from '@/dtos/user.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { User } from '@/interfaces/User.interface';
-import { UserModel } from '@/clients/models/Users.model';
 import { inject, injectable } from 'inversify';
 import { UserClient } from '@/clients/UserClient';
 import { TYPES } from '@/types';
@@ -18,7 +17,7 @@ export class UserService {
   }
 
   public async findUserById(userId: string): Promise<User> {
-    const findUser: User = await UserModel.findOne({ _id: userId });
+    const findUser: User = await this.UserClient.findUserById(userId);
     if (!findUser) throw new HttpException(409, "User doesn't exist");
 
     return findUser;
@@ -48,7 +47,7 @@ export class UserService {
       userData = { ...userData, password: hashedPassword };
     }
 
-    const updateUserById: User = await UserModel.findByIdAndUpdate(userId, { userData });
+    const updateUserById: User = await this.UserClient.updateUser(userId, userData);
     if (!updateUserById) throw new HttpException(409, "User doesn't exist");
 
     return updateUserById;
