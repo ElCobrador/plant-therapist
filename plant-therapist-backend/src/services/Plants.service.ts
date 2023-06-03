@@ -32,7 +32,7 @@ export class PlantService {
       ScientificName: createPlantDto.ScientificName,
       Description: createPlantDto.Description,
       AssignedProbeId: createPlantDto.AssignedProbeId,
-      WateringThresholds: undefined
+      //WateringThresholds: undefined
     }
     const createdPlant: Plant = await this.PlantClient.createPlant(plant)
 
@@ -55,10 +55,8 @@ export class PlantService {
     return updatedPlant;
   }
 
-  public async deletePlant(userId: string): Promise<Plant> {
-    const deletedUser: Plant = await this.PlantClient.deletePlant(userId);
-    if (!deletedUser) throw new HttpException(409, "Plant doesn't exist");
-
-    return deletedUser;
+  public async deletePlant(userId: string): Promise<void> {
+    const deletedPlant: Plant = await this.PlantClient.deletePlant(userId);
+    if (!deletedPlant) throw new HttpException(409, "Plant doesn't exist");
   }
 }

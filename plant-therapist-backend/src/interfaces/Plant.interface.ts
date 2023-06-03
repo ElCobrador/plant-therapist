@@ -6,6 +6,6 @@ export interface Plant {
   FriendlyName: string;
   ScientificName: string;
   Description: string;
-  WateringThresholds: WateringThresholds;
+  //WateringThresholds: WateringThresholds;
   AssignedProbeId: string;
 }

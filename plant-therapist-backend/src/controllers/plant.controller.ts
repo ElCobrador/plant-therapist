@@ -38,7 +38,7 @@ export class PlantController implements interfaces.Controller {
       const plantId: string = req.params.id;
       const plant: Plant = await this.PlantService.getPlantById(plantId);
 
-      res.status(200).json({ data: plant, message: 'findOne' });
+      res.status(200).json({ data: plant });
     } catch (error) {
       next(error);
     }
@@ -57,7 +57,7 @@ export class PlantController implements interfaces.Controller {
     }
   };
 
-  @ApiOperationPut(PlantSwaggerDoc.CreatePlant)
+  @ApiOperationPut(PlantSwaggerDoc.UpdatePlant)
   @httpPut("/:id")
   private async UpdatePlant(req: Request, res: Response, next: NextFunction) {
     try {
@@ -76,9 +76,9 @@ export class PlantController implements interfaces.Controller {
   private async DeletePlant(req: Request, res: Response, next: NextFunction) {
     try {
       const userId: string = req.params.id;
-      const deletedPlant: Plant = await this.PlantService.deletePlant(userId);
+      await this.PlantService.deletePlant(userId);
 
-      res.status(200).json({ data: deletedPlant, message: 'Plant deleted successfully.' });
+      res.status(200).json({ message: 'Plant deleted successfully.' });
     } catch (error) {
       next(error);
     }
