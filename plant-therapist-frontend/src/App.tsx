@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import NavBar from './Components/Navbar';
-import HeroStory from './Stories/HeroStory';
+import { HeroStory } from './Stories/HeroStory';
 
 const theme = {
   colors: {

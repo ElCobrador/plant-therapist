@@ -25,7 +25,7 @@ export class PlantController implements interfaces.Controller {
     try {
       const plants: Plant[] = await this.PlantService.getAllPlants();
 
-      res.status(200).json({ data: plants, message: 'findAll' });
+      res.status(200).json(plants);
     } catch (error) {
       next(error);
     }
@@ -38,7 +38,7 @@ export class PlantController implements interfaces.Controller {
       const plantId: string = req.params.id;
       const plant: Plant = await this.PlantService.getPlantById(plantId);
 
-      res.status(200).json({ data: plant });
+      res.status(200).json(plant);
     } catch (error) {
       next(error);
     }
@@ -51,7 +51,7 @@ export class PlantController implements interfaces.Controller {
       const requestedPlant: CreatePlantDto = req.body;
       const createdPlant: Plant = await this.PlantService.createPlant(requestedPlant);
 
-      res.status(201).json({ data: createdPlant, message: 'created' });
+      res.status(201).json(createdPlant);
     } catch (error) {
       next(error);
     }
@@ -65,7 +65,7 @@ export class PlantController implements interfaces.Controller {
       const updatePlantDto: UpdatePlantDto = req.body;
       const updatedPlant: Plant = await this.PlantService.updatePlant(plantId, updatePlantDto);
 
-      res.status(200).json({ data: updatedPlant, message: 'Plant updated successfully.' });
+      res.status(200).json(updatedPlant);
     } catch (error) {
       next(error);
     }

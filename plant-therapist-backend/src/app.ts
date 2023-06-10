@@ -17,6 +17,7 @@ import { PlantService } from './services/Plants.service';
 import { PlantClient } from "./clients/PlantClient";
 import { CreatePlantDto } from './dtos/plant.dto';
 import { initializeSwaggerConfig } from './app.swaggerConfig';
+import cors from 'cors'
 
 class App {
   public app: express.Application;
@@ -32,7 +33,9 @@ class App {
     const container = this.InitializeContainer();
     let server = new InversifyExpressServer(container);
     server.setConfig((app: express.Application) => {
-
+      app.use(cors({
+        origin: '*'
+      }));
       this.initializeSwagger(app);
       //this.initializeMiddlewares(app);
     })
@@ -58,6 +61,8 @@ class App {
   }
 
   public listen() {
+    console.log(`Now listening on port ${this.port}.`)
+    console.log(`Swagger link : localhost:${this.port}/api-docs/swagger`)
     this.app.listen(this.port, () => { });
   }
 

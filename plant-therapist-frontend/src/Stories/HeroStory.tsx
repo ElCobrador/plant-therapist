@@ -1,24 +1,35 @@
-import React, { Component } from 'react'
+import React, { Component, FunctionComponent, useEffect, useState } from 'react'
+import { getAllPlants } from '../api/plant'
 import PlantPng from '../assets/images/HeroPlant.png'
 import FlexContainer from '../Components/styles/container.styled'
+import { Plant } from '../models/Plant'
 
-type Props = {}
+type HeroStoryProps = {}
 
-type State = {}
+export const HeroStory = (props: HeroStoryProps): JSX.Element => {
 
-export default class HeroStory extends Component<Props, State> {
-  state = {}
+  const [plants, setPlants] = useState<Plant[]>([])
 
-  render() {
-    return (
-      <div>
-        <FlexContainer justifyContent='space-around' direction='row'>
-          <div>
-            Hero Text
-          </div>
-          <img src={PlantPng} alt='Plant' height={500} />
-        </FlexContainer>
-      </div>
-    )
+  useEffect(() => {
+    fetchAllPlants();
+  }, [])
+
+  const fetchAllPlants = async () => {
+    const plants = await getAllPlants();
+    setPlants(plants ?? [])
   }
-} 
+
+  return <div>
+    <FlexContainer justifyContent='space-around' direction='row'>
+      <div>
+        Hero Text
+      </div>
+      <img src={PlantPng} alt='Plant' height={500} />
+      {plants.map((plant) => (
+        <div>
+          {plant.FriendlyName}
+        </div>
+      ))}
+    </FlexContainer>
+  </div>
+}
