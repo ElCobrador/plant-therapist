@@ -4,11 +4,11 @@ import LabelText from "./styles/Label.styled"
 
 type LabelProps = {
   text: string,
-  font: FontFamily,
+  font?: FontFamily,
   fontSize: FontSize
 }
 
-export const Label = ({ text, font, fontSize }: LabelProps): JSX.Element => {
+export const Label = ({ text, font = FontFamily.WorkSans, fontSize }: LabelProps): JSX.Element => {
   const fontFamilyString = FontFamilyToString(font);
   const fontSizeString = FontSizeToString(fontSize);
 

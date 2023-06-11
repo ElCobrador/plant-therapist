@@ -25,7 +25,7 @@ export const FontSizeToString = (textSize: FontSize) => {
     case FontSize.Caption:
       return '12px';
     default:
-      throw new Error('The TextSize provided doesn\'t exist');
+      throw new Error('The FontSize provided doesn\'t exist');
   }
 }
 

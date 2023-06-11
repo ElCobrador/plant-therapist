@@ -8,16 +8,9 @@ type FlexContainerProps = {
   gap?: string,
   flexWrap?: string
 }
-
-type GridContainerProps = {
-  gridTemplateColumns?: string,
-  gridTemplateRows?: string,
-  gridGap?: string
-}
-
 export const FlexContainer = styled.div<FlexContainerProps>`
   display: flex;
-  flex-direction: ${({ direction }) => direction || 'column'};
+  flex-direction: ${({ direction }) => direction || 'row'};
   justify-content: ${({ justifyContent }) => justifyContent || 'flex-start'};
   align-items: ${({ alignItems }) => alignItems || 'flex-start'};
   padding: ${({ padding }) => padding};
@@ -25,6 +18,11 @@ export const FlexContainer = styled.div<FlexContainerProps>`
   flex-wrap: ${({ flexWrap }) => flexWrap || 'wrap'};
 `;
 
+type GridContainerProps = {
+  gridTemplateColumns?: string,
+  gridTemplateRows?: string,
+  gridGap?: string
+}
 export const GridContainer = styled.div<GridContainerProps>`
   display: grid;
   grid-template-columns: ${({ gridTemplateColumns }) => gridTemplateColumns};
