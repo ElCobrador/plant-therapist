@@ -25,11 +25,6 @@ export const HeroStory = (props: HeroStoryProps): JSX.Element => {
         Hero Text
       </div>
       <img src={PlantPng} alt='Plant' height={500} />
-      {plants.map((plant) => (
-        <div>
-          {plant.FriendlyName}
-        </div>
-      ))}
     </FlexContainer>
   </div>
 }

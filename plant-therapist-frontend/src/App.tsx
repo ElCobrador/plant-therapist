@@ -3,6 +3,7 @@ import './App.css';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import NavBar from './Components/Navbar';
 import { HeroStory } from './Stories/HeroStory';
+import { PlantListStory } from './Stories/PlantListStory';
 
 const theme = {
   colors: {
@@ -28,7 +29,8 @@ function App() {
       <GlobalStyle />
 
       <NavBar />
-      <HeroStory />
+      <PlantListStory />
+      {/* <HeroStory /> */}
 
       <div>
         <div style={{ margin: 'auto', padding: '0% 5%', maxWidth: '1200px' }}>
