@@ -30,6 +30,15 @@ export async function updatePlant(plantId: string, plantData: Plant) {
   }
 }
 
+export async function CreatePlant(plant: Plant) {
+  try {
+    const response = await http.post<any>(`/plant/`, plant);
+  }
+  catch(e: any) {
+    throw e;
+  }
+}
+
 export async function DeletePlant(plantId: string, plantData: Plant) {
   try {
     const response = await http.delete<any>(`/plant/${plantId}`);

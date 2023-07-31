@@ -1,5 +1,5 @@
 import React, { Component, FunctionComponent, useEffect, useState } from 'react'
-import { getAllPlants } from '../api/plant'
+import { getAllPlants } from '../Api/plant'
 import PlantPng from '../assets/images/HeroPlant.png'
 import FlexContainer from '../Components/styles/container.styled'
 import { Plant } from '../models/Plant'

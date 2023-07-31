@@ -2,11 +2,12 @@
 # https://nodejs.org/en/docs/guides/nodejs-docker-webapp
 FROM node:18
 
-# Create app directory.
 WORKDIR /usr/src/app
-
-# Bundle app source
+COPY package*.json ./
+RUN npm install
 COPY . .
+
+RUN npm run build
 
 EXPOSE 3000
 ENTRYPOINT ["/bin/bash", "-c", "NODE_ENV=prod node -r ts-node/register -r tsconfig-paths/register server.js"]

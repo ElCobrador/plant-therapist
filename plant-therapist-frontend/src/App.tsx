@@ -8,6 +8,8 @@ import { PlantsPage } from './Pages/PlantsPage';
 import { ProfilePage } from './Pages/ProfilePage';
 import { PathNotFoundPage } from './Pages/PathNotFoundPage';
 import { PlantDetailPage } from './Pages/PlantDetailPage';
+import { CreateNewPlantPage } from './Pages/CreateNewPlantPage';
+import EditPlantPage from './Pages/EditPlantPage';
 
 const theme = {
   colors: {
@@ -41,6 +43,8 @@ const App = () => {
 
           {/* Look into how use the route parameter to load the object. */}
           <Route path="/plant/:plantId" element={<PlantDetailPage />} />
+          <Route path="/plant/:plantId/edit" element={<EditPlantPage />} />
+          <Route path="/CreatePlant" element={<CreateNewPlantPage />} />
           <Route path="*" element={<PathNotFoundPage />} />
         </Routes>
       </Suspense>

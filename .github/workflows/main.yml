@@ -68,7 +68,7 @@ jobs:
       - name: run docker containers
         run: docker compose up -d
 
-  build-and-deploy-frontend: 
+  build-and-deploy-frontend:
     needs: check-changes
     if: ${{ needs.check-changes.outputs.frontend == 'true' }}
 

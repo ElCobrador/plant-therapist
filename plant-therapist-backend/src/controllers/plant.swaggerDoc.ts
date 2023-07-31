@@ -1,5 +1,4 @@
 import { SwaggerDefinitionConstant } from "swagger-express-ts";
-import { CreatePlantDto, UpdatePlantDto } from "../dtos/plant.dto"
 
 export abstract class PlantSwaggerDoc {
 
